@@ -53,6 +53,7 @@ class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         isCheater = true
     }
 
+
     fun assignthis(): Intent{
         val data = Intent().apply {
             putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown)
@@ -63,6 +64,8 @@ class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
     fun handleCheatActivityResult(resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
             isCheater = data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
+            isAnswerShown = true
+            isCheater = true
         }
     }
 }

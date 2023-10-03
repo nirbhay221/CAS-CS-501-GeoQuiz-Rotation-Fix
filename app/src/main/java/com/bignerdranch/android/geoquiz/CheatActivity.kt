@@ -27,12 +27,13 @@ class CheatActivity : AppCompatActivity() {
         outState.putBoolean(IS_CHEATER_KEY, quizViewModel.isCheater)
     }
 
-
+    override fun onBackPressed() {
+        val data = quizViewModel.assignthis()
+        setResult(Activity.RESULT_OK, data)
+        super.onBackPressed()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState != null) {
-            quizViewModel.isCheater = savedInstanceState.getBoolean(IS_CHEATER_KEY, false)
-        }
         binding = ActivityCheatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -43,8 +44,10 @@ class CheatActivity : AppCompatActivity() {
                 answerIsTrue -> R.string.true_button
                 else -> R.string.false_button
             }
+
             quizViewModel.markCheated()
             binding.answerTextView.setText(answerText)
+
             setAnswerShownResult(true)
         }
     }

@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bignerdranch.android.geoquiz.databinding.ActivityMainBinding
 
 private const val TAG = "MainActivity"
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -22,22 +21,11 @@ class MainActivity : AppCompatActivity() {
     ) { result ->
         quizViewModel.handleCheatActivityResult(result.resultCode, result.data)
     }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean(IS_CHEATER_KEY, quizViewModel.isCheater)
-    }
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState != null) {
-            quizViewModel.isCheater = savedInstanceState.getBoolean(IS_CHEATER_KEY, false)
-        }
-        Log.d(TAG, "onCreate(Bundle?) called")
+        setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         binding.trueButton.setOnClickListener { view: View ->
             checkAnswer(true)
         }
@@ -61,31 +49,6 @@ class MainActivity : AppCompatActivity() {
         updateQuestion()
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.d(TAG, "onStart() called")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume() called")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d(TAG, "onPause() called")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop() called")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy() called")
-    }
-
     private fun updateQuestion() {
         val questionTextResId = quizViewModel.currentQuestionText
         binding.questionTextView.setText(questionTextResId)
@@ -98,8 +61,6 @@ class MainActivity : AppCompatActivity() {
             userAnswer == correctAnswer -> R.string.correct_toast
             else -> R.string.incorrect_toast
         }
-        Toast.makeText(this,"${quizViewModel.isAnswerShown}",Toast.LENGTH_LONG).show()
-        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
-            .show()
+        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
     }
 }
